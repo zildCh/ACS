@@ -18,6 +18,7 @@ polling_period = 0.81  # Период опроса в секундах
 def heating_function(current_voltage):
     return current_voltage + b_H * (T_max - current_voltage)
 
+
 def cooling_function(current_voltage):
     return current_voltage - b_0 * (current_voltage - T_min)
 
@@ -31,7 +32,7 @@ sensors = [{"current_voltage": min(6.9 + 0.4 * i, 11.4),
            for i in range(24)]
 # Инициализация графиков
 fig = plt.figure(figsize=(18, 16))
-gs = fig.add_gridspec(6, 5, width_ratios=[1, 1, 1, 1, 1])
+gs = fig.add_gridspec(6, 5, width_ratios=[2.5, 1, 1, 1, 1])
 info_ax = fig.add_subplot(gs[:, 0])  # Ось для отображения информации
 axs = [fig.add_subplot(gs[i // 4, i % 4 + 1]) for i in range(24)]
 
@@ -107,10 +108,7 @@ def update(frame):
             temp_data[i].pop(0)
 
         lines[i].set_data(time_data[i][:len(temp_data[i])], temp_data[i])
-        # axs[i].set_title(
-        #     f"Датчик {i + 1}: Текущая T = {filtered_temp:.1f}°C, "
-        #     f"Уставка Tуст = {sensor['target_temp']}°C, "
-        #     f"{'Нагрев' if sensor['heating'] else 'Охлаждение'}")
+
 
         # Определяем состояние пресс-формы
         press_mold_state = determine_press_mold_state(sensor)
